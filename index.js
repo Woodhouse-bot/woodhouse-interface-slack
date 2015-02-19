@@ -59,4 +59,10 @@ slack.prototype.send = function(message, channel) {
     channel.send(message)
 }
 
+slack.prototype.exit = function(){
+    if (this.connection) {
+        this.connection.disconnect();
+    }
+}
+
 module.exports = slack;
