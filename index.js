@@ -44,19 +44,19 @@ slack.prototype.recieveMessage = function(message) {
         mentions,
         mentionUser;
 
-    message.text = message.text.replace(nameRegex, this.api.name);
+    if (message.type === 'message' && message.text) {
+        message.text = message.text.replace(nameRegex, this.api.name);
 
-    while (mention = mentionRegex.exec(message.text)) {
-        mentionUser = this.connection.getUserByID(mention[1]);
-        message.text = message.text.replace(mention[0], mentionUser.name);
-    }
-    if (message.type === 'message') {
+        while (mention = mentionRegex.exec(message.text)) {
+            mentionUser = this.connection.getUserByID(mention[1]);
+            message.text = message.text.replace(mention[0], mentionUser.name);
+        }
         this.messageRecieved(channel, message.text, user.name);
     }
 }
 
 slack.prototype.send = function(message, channel) {
-    channel.send(message)
+    channel.send(message);
 }
 
 slack.prototype.exit = function(){
